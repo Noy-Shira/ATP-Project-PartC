@@ -5,4 +5,5 @@ public interface ModelObserver {
     void mazeSolved();
     void characterMoved();
     void mazeLoaded();
+    void errorOccurred(String message);
 }

@@ -74,6 +74,7 @@ public class MyViewModel implements ModelObserver {
     @Override
     public void mazeLoaded() {
         Platform.runLater(() -> {
+            maze.set(null);
             maze.set(model.getCurrentMaze());
             characterPosition.set(model.getCharacterPosition());
             gameWon.set(false);
@@ -109,9 +110,14 @@ public class MyViewModel implements ModelObserver {
     @Override
     public void errorOccurred(String message) {
         Platform.runLater(() -> {
+            errorMessage.set("");
             errorMessage.set(message);
             controlsEnabled.set(true);
         });
     }
     //endregion
+
+    public void exitGame() {
+        model.stopServers();
+    }
 }

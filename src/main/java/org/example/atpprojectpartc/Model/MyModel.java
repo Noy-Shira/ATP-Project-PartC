@@ -249,25 +249,29 @@ public class MyModel implements IModel {
     // back at the maze's start position.
     @Override
     public void loadMaze(File file) {
-        try {
-            InputStream in = new MyDecompressorInputStream(new FileInputStream(file));
-            ByteArrayOutputStream decompressedOut = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(buffer)) > 0) {
-                decompressedOut.write(buffer, 0, bytesRead);
+        new Thread(() -> {
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                byte[] compressedBytes = fis.readAllBytes();
+                fis.close();
+
+                byte[] decompressedMaze = new byte[12 + 1000 * 1000];
+                InputStream in = new MyDecompressorInputStream(
+                        new ByteArrayInputStream(compressedBytes));
+                in.read(decompressedMaze);
+                in.close();
+
+                currentMaze = new Maze(decompressedMaze);
+                characterPosition = currentMaze.getStartPosition();
+                notifyMazeLoaded();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                notifyError("Failed to load maze: " + e.getMessage());
             }
-            in.close();
-
-            byte[] mazeBytes = decompressedOut.toByteArray();
-            currentMaze = new Maze(mazeBytes);
-            characterPosition = currentMaze.getStartPosition();
-
-            notifyMazeLoaded();
-        } catch (IOException e) {
-            notifyError("Failed to load maze: " + e.getMessage());
-        }
+        }).start();
     }
+
     @Override
     public Maze getCurrentMaze() {
         return currentMaze;

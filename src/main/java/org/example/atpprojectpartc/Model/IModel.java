@@ -16,4 +16,5 @@ public interface IModel {
     Solution getCurrentSolution();
     void addObserver(ModelObserver observer);
     void removeObserver(ModelObserver observer);
+    void stopServers();
 }

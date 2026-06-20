@@ -1,0 +1,130 @@
+/* ===== General Application Style ===== */
+.root {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-background-color: #1a1a2e;
+}
+
+/* ===== Menu Bar ===== */
+.menu-bar {
+    -fx-background-color: #16213e;
+    -fx-padding: 5px;
+}
+
+.menu-bar .menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.menu-bar .menu:hover {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: white;
+}
+
+.menu-bar .menu:showing {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: white;
+}
+
+.menu-bar .label {
+    -fx-text-fill: white;
+}
+
+/* ===== Menu Items ===== */
+.menu-item {
+    -fx-background-color: #16213e;
+}
+
+.menu-item:hover {
+    -fx-background-color: #0f3460;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+.context-menu {
+    -fx-background-color: #16213e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 1px;
+}
+
+/* ===== Buttons ===== */
+.button {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 20px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #e94560;
+    -fx-text-fill: white;
+}
+
+.button:pressed {
+    -fx-background-color: #c73652;
+}
+
+.button:disabled {
+    -fx-background-color: #444444;
+    -fx-text-fill: #888888;
+    -fx-cursor: default;
+}
+
+/* ===== Dialog / Alert ===== */
+.dialog-pane {
+    -fx-background-color: #1a1a2e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 2px;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #16213e;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: white;
+}
+
+.dialog-pane .button-bar .button:hover {
+    -fx-background-color: #e94560;
+}
+
+/* ===== Text Fields (in dialogs) ===== */
+.text-field {
+    -fx-background-color: #16213e;
+    -fx-text-fill: white;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-padding: 5px;
+}
+
+.text-field:focused {
+    -fx-border-color: #e94560;
+}
+
+/* ===== Labels (in dialogs) ===== */
+.label {
+    -fx-text-fill: white;
+}
+
+/* ===== Maze Pane Background ===== */
+#mazePane {
+    -fx-background-color: #000000;
+}

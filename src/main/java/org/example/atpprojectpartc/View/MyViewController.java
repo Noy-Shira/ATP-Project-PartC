@@ -11,4 +11,6 @@ public class MyViewController implements IView{
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
+
+
 }

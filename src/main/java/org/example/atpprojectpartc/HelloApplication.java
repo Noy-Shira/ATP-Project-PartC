@@ -51,7 +51,6 @@ public class HelloApplication extends Application {
         // 6. Setup and display the window
         primaryStage.setTitle("Maze Game - Israel vs Iran");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

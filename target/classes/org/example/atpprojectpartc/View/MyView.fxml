@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import org.example.atpprojectpartc.View.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.atpprojectpartc.View.MyViewController"
+            fx:id="mainPane"
+            onKeyPressed="#onKeyPressed"
+            focusTraversable="true"
+            stylesheets="@/styles.css">
+
+    <!-- Top menu bar with all required menu items -->
+    <top>
+        <MenuBar>
+            <menus>
+
+                <!-- File menu: New, Save, Load -->
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="New" onAction="#onNewMaze"/>
+                        <MenuItem fx:id="saveMazeItem" text="Save" onAction="#onSaveMaze" disable="true"/>
+                        <MenuItem text="Load" onAction="#onLoadMaze"/>
+                    </items>
+                </Menu>
+
+                <!-- Options menu: Properties -->
+                <Menu text="Options">
+                    <items>
+                        <MenuItem text="Properties" onAction="#onProperties"/>
+                    </items>
+                </Menu>
+
+                <!-- Exit menu: clean exit -->
+                <Menu text="Exit">
+                    <items>
+                        <MenuItem text="Exit" onAction="#onExit"/>
+                    </items>
+                </Menu>
+
+                <!-- Help menu: how to play instructions -->
+                <Menu text="Help">
+                    <items>
+                        <MenuItem text="How to Play" onAction="#onHelp"/>
+                    </items>
+                </Menu>
+
+                <!-- About menu: developer and algorithm info -->
+                <Menu text="About">
+                    <items>
+                        <MenuItem text="About" onAction="#onAbout"/>
+                    </items>
+                </Menu>
+
+            </menus>
+        </MenuBar>
+    </top>
+
+    <!-- Main content area -->
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+
+            <!-- Header image (Pnina Rosenblum) displayed above the maze -->
+            <ImageView fitWidth="400" fitHeight="150" preserveRatio="true">
+                <image>
+                    <Image url="@/Pnina.png"/>
+                </image>
+            </ImageView>
+
+            <!-- Maze container - grows with the window.
+                 MazeDisplayer size is bound to this Pane in MyViewController -->
+            <Pane fx:id="mazePane"
+                  VBox.vgrow="ALWAYS"
+                  onMouseDragged="#onMouseDragged"
+                  onScroll="#onScroll">
+                <MazeDisplayer fx:id="mazeDisplayer"/>
+            </Pane>
+
+            <!-- Game control buttons.
+                 Solve and Save are disabled until a maze is generated -->
+            <HBox alignment="CENTER" spacing="20">
+                <padding>
+                    <Insets top="5" bottom="5"/>
+                </padding>
+                <Button fx:id="generateButton"
+                        text="Generate Maze"
+                        onAction="#onGenerateMaze"/>
+                <Button fx:id="solveButton"
+                        text="Solve"
+                        onAction="#onSolveMaze"
+                        disable="true"/>
+            </HBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

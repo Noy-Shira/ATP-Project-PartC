@@ -14,6 +14,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Concrete implementation of the IModel interface.
+ * Manages the application's state, runs background servers for heavy computations,
+ * and handles client-server communications to generate and solve mazes.
+ */
 public class MyModel implements IModel {
 
     // Ports used to connect to the two servers created in Part B.
@@ -37,11 +42,17 @@ public class MyModel implements IModel {
     private Server mazeGeneratingServer;
     private Server solveSearchProblemServer;
 
+    /**
+     * Constructor for MyModel.
+     * Automatically initializes and starts the backend servers upon creation.
+     */
     public MyModel() {
         startServers();
     }
 
-    // Starts both servers so the model can later connect to them as a client.
+    /**
+     * Starts both servers so the model can later connect to them as a client.
+     */
     private void startServers() {
         mazeGeneratingServer = new Server(MAZE_GENERATING_PORT, LISTENING_INTERVAL_MS, new ServerStrategyGenerateMaze());
         solveSearchProblemServer = new Server(SOLVE_SEARCH_PROBLEM_PORT, LISTENING_INTERVAL_MS, new ServerStrategySolveSearchProblem());
@@ -49,7 +60,10 @@ public class MyModel implements IModel {
         solveSearchProblemServer.start();
     }
 
-    // Should be called when the application closes, to shut down both servers cleanly.
+    /**
+     * Should be called when the application closes, to shut down both servers cleanly.
+     */
+    @Override
     public void stopServers() {
         mazeGeneratingServer.stop();
         solveSearchProblemServer.stop();
@@ -67,35 +81,50 @@ public class MyModel implements IModel {
         observers.remove(observer);
     }
 
-    // Notifies all observers that a new maze was generated.
+    /**
+     * Notifies all registered observers that a new maze was generated.
+     */
     private void notifyMazeGenerated() {
         for (ModelObserver o : observers) o.mazeGenerated();
     }
 
-    // Notifies all observers that a maze was loaded from a file.
+    /**
+     * Notifies all registered observers that a maze was loaded from a file.
+     */
     private void notifyMazeLoaded() {
         for (ModelObserver o : observers) o.mazeLoaded();
     }
 
-    // Notifies all observers that the maze was solved.
+    /**
+     * Notifies all registered observers that the maze was solved.
+     */
     private void notifyMazeSolved() {
         for (ModelObserver o : observers) o.mazeSolved();
     }
 
-    // Notifies all observers that the character moved.
+    /**
+     * Notifies all registered observers that the character moved.
+     */
     private void notifyCharacterMoved() {
         for (ModelObserver o : observers) o.characterMoved();
     }
 
-    // Notifies all observers that an error happened.
+    /**
+     * Notifies all registered observers that an error happened.
+     * @param message The error message to broadcast.
+     */
     private void notifyError(String message) {
         for (ModelObserver o : observers) o.errorOccurred(message);
     }
 
     //endregion
 
-    // Asks the maze-generating server for a new maze, on a separate thread
-    // so the GUI does not freeze while waiting for the server's response.
+    /**
+     * Asks the maze-generating server for a new maze, on a separate thread
+     * so the GUI does not freeze while waiting for the server's response.
+     * @param rows The desired number of rows.
+     * @param columns The desired number of columns.
+     */
     @Override
     public void generateMaze(int rows, int columns) {
         new Thread(() -> {
@@ -133,7 +162,9 @@ public class MyModel implements IModel {
         }).start();
     }
 
-    // Asks the solving server to solve the current maze, on a separate thread.
+    /**
+     * Asks the solving server to solve the current maze, on a separate thread.
+     */
     @Override
     public void solveMaze() {
         if (currentMaze == null) {
@@ -163,11 +194,12 @@ public class MyModel implements IModel {
         }).start();
     }
 
-    // Moves the character one step in the given direction, if the move is legal.
-    // Checks maze boundaries, walls, and for diagonal moves, applies the same
-    // "no corner-cutting" rule used in Part A's SearchableMaze: a diagonal move
-    // is allowed if at least one of the two possible L-shaped paths (row-first
-    // or column-first) between the current cell and the target cell is open.
+    /**
+     * Moves the character one step in the given direction, if the move is legal.
+     * Checks maze boundaries, walls, and for diagonal moves, applies the same
+     * "no corner-cutting" rule used in Part A's SearchableMaze.
+     * @param direction The requested direction of movement.
+     */
     @Override
     public void moveCharacter(Direction direction) {
         if (currentMaze == null || characterPosition == null) {
@@ -225,9 +257,11 @@ public class MyModel implements IModel {
         notifyCharacterMoved();
     }
 
-    // Saves the current maze to the given file, compressed using the same
-    // compressor written in Part B (MyCompressorOutputStream), so the file
-    // stays small on disk.
+    /**
+     * Saves the current maze to the given file, compressed using the same
+     * compressor written in Part B (MyCompressorOutputStream).
+     * @param file The file to save the maze to.
+     */
     @Override
     public void saveMaze(File file) {
         if (currentMaze == null) {
@@ -244,9 +278,11 @@ public class MyModel implements IModel {
         }
     }
 
-    // Loads a maze from the given file (saved earlier using saveMaze),
-    // decompresses it, and rebuilds the Maze object. The character is placed
-    // back at the maze's start position.
+    /**
+     * Loads a maze from the given file, decompresses it, and rebuilds the Maze object.
+     * The character is placed back at the maze's start position.
+     * @param file The file to load the maze from.
+     */
     @Override
     public void loadMaze(File file) {
         new Thread(() -> {

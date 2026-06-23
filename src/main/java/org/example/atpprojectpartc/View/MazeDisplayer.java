@@ -10,6 +10,10 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
+/**
+ * Custom JavaFX Canvas component responsible for rendering the maze,
+ * the character, the goal, and the solution path.
+ */
 public class MazeDisplayer extends Canvas {
 
     private Maze maze;
@@ -22,6 +26,11 @@ public class MazeDisplayer extends Canvas {
     private Image playerImage;
     private Image goalImage;
 
+    /**
+     * Constructor for MazeDisplayer.
+     * Initializes the player and goal images and sets up listeners
+     * to redraw the canvas dynamically when its dimensions change.
+     */
     public MazeDisplayer() {
         // Attempt to load images safely
         try {
@@ -36,6 +45,10 @@ public class MazeDisplayer extends Canvas {
         heightProperty().addListener(e -> draw());
     }
 
+    /**
+     * Sets a new maze to be displayed and resets the character position to the start.
+     * * @param maze The new Maze object to display.
+     */
     public void setMaze(Maze maze) {
         this.maze = maze;
         this.showSolution = false;
@@ -48,23 +61,39 @@ public class MazeDisplayer extends Canvas {
         draw();
     }
 
+    /**
+     * Updates the character's position on the canvas and triggers a redraw.
+     * * @param row The new row index of the character.
+     * @param col The new column index of the character.
+     */
     public void setCharacterPosition(int row, int col) {
         this.characterRow = row;
         this.characterCol = col;
         draw();
     }
 
+    /**
+     * Sets the solution path to be displayed and triggers a redraw.
+     * * @param solution The Solution object containing the path to the goal.
+     */
     public void setSolution(Solution solution) {
         this.solution = solution;
         this.showSolution = true;
         draw();
     }
 
+    /**
+     * Hides the currently displayed solution path and triggers a redraw.
+     */
     public void hideSolution() {
         this.showSolution = false;
         draw();
     }
 
+    /**
+     * Core rendering logic. Clears the canvas and draws the maze walls,
+     * paths, solution (if enabled), goal, and character based on the current dimensions.
+     */
     private void draw() {
         if (maze == null) return;
 
@@ -130,12 +159,23 @@ public class MazeDisplayer extends Canvas {
     }
 
     // Overridden methods to allow the Canvas to resize dynamically within its layout container
+    /**
+     * @return true to indicate that this Canvas is resizable.
+     */
     @Override
     public boolean isResizable() { return true; }
 
+    /**
+     * @param height The height.
+     * @return The preferred width based on the current canvas width.
+     */
     @Override
     public double prefWidth(double height) { return getWidth(); }
 
+    /**
+     * @param width The width.
+     * @return The preferred height based on the current canvas height.
+     */
     @Override
     public double prefHeight(double width) { return getHeight(); }
 }

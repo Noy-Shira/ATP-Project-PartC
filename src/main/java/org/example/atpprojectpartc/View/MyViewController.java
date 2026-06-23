@@ -24,6 +24,11 @@ import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import javafx.scene.Scene;
 
+/**
+ * Controller for the main game view.
+ * Manages user interactions, UI event handling, media playback,
+ * and communicates with the ViewModel to update the game state.
+ */
 public class MyViewController implements IView {
 
     private MyViewModel viewModel;
@@ -40,6 +45,11 @@ public class MyViewController implements IView {
 
     //region ViewModel Connection
 
+    /**
+     * Connects the ViewModel to this controller, initializes media,
+     * and sets up property bindings.
+     * * @param viewModel The MyViewModel instance to bind to.
+     */
     public void setViewModel(MyViewModel viewModel) {
         if (viewModel == null) return;
         this.viewModel = viewModel;
@@ -47,6 +57,9 @@ public class MyViewController implements IView {
         bindProperties();
     }
 
+    /**
+     * Initializes the background and victory music players.
+     */
     private void initMusic() {
         try {
             // Background music - replays automatically when song ends
@@ -66,6 +79,10 @@ public class MyViewController implements IView {
         }
     }
 
+    /**
+     * Binds the UI components (like the maze displayer) to the properties
+     * provided by the ViewModel (maze state, position, solution, etc.).
+     */
     private void bindProperties() {
         // Bind maze - also binds canvas size to pane and starts music
         viewModel.mazeProperty().addListener((obs, oldVal, newVal) -> {
@@ -128,6 +145,10 @@ public class MyViewController implements IView {
 
     //region File Menu
 
+    /**
+     * Handles the "New Maze" menu action. Prompts the user for dimensions
+     * and triggers maze generation in the ViewModel.
+     */
     @FXML
     private void onNewMaze() {
         // Show dialog to get maze dimensions from user
@@ -186,6 +207,10 @@ public class MyViewController implements IView {
         });
     }
 
+    /**
+     * Handles the "Save Maze" menu action. Opens a FileChooser and saves
+     * the current maze configuration to a file.
+     */
     @FXML
     private void onSaveMaze() {
         if (viewModel == null) return;
@@ -197,6 +222,10 @@ public class MyViewController implements IView {
         if (file != null) viewModel.saveMaze(file);
     }
 
+    /**
+     * Handles the "Load Maze" menu action. Opens a FileChooser and loads
+     * a saved maze from the selected file.
+     */
     @FXML
     private void onLoadMaze() {
         if (viewModel == null) return;
@@ -215,6 +244,9 @@ public class MyViewController implements IView {
 
     //region Options / Help / About / Exit Menus
 
+    /**
+     * Shows a dialog displaying the game's background properties.
+     */
     @FXML
     private void onProperties() {
         try {
@@ -236,6 +268,9 @@ public class MyViewController implements IView {
         }
     }
 
+    /**
+     * Displays an informational dialog with instructions on how to play the game.
+     */
     @FXML
     private void onHelp() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -254,6 +289,9 @@ public class MyViewController implements IView {
         alert.showAndWait();
     }
 
+    /**
+     * Displays an informational dialog with details about the developers.
+     */
     @FXML
     private void onAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -269,6 +307,9 @@ public class MyViewController implements IView {
         alert.showAndWait();
     }
 
+    /**
+     * Shuts down the application safely, stopping media and background threads.
+     */
     @FXML
     private void onExit() {
         // Stop all music before exit
@@ -284,11 +325,18 @@ public class MyViewController implements IView {
 
     //region Game Buttons
 
+    /**
+     * Wrapper method for the "Generate Maze" UI button.
+     */
     @FXML
     private void onGenerateMaze() {
         onNewMaze();
     }
 
+    /**
+     * Toggles the display of the maze solution. Interacts with the ViewModel
+     * to calculate the path if it is not currently visible.
+     */
     @FXML
     private void onSolveMaze() {
         if (viewModel == null) return;
@@ -307,6 +355,10 @@ public class MyViewController implements IView {
 
     //region Keyboard Movement (NumPad)
 
+    /**
+     * Handles keyboard events for character movement using the Numpad keys.
+     * * @param keyEvent The KeyEvent triggered by a key press.
+     */
     @FXML
     private void onKeyPressed(KeyEvent keyEvent) {
         if (viewModel == null) return;
@@ -334,6 +386,10 @@ public class MyViewController implements IView {
 
     //region Zoom (Ctrl + Scroll)
 
+    /**
+     * Handles zooming in and out of the maze canvas using Ctrl + Scroll.
+     * * @param scrollEvent The ScrollEvent triggered by the mouse wheel.
+     */
     @FXML
     private void onScroll(ScrollEvent scrollEvent) {
         if (scrollEvent.isControlDown()) {
@@ -354,6 +410,11 @@ public class MyViewController implements IView {
 
     //region Mouse Drag Movement
 
+    /**
+     * Handles character movement via mouse drag. Calculates the target cell
+     * and attempts to move the character one step in that direction.
+     * * @param mouseEvent The MouseEvent triggered by dragging.
+     */
     @FXML
     private void onMouseDragged(MouseEvent mouseEvent) {
         if (viewModel == null || viewModel.mazeProperty().get() == null) return;
@@ -387,6 +448,12 @@ public class MyViewController implements IView {
         if (direction != null) viewModel.moveCharacter(direction);
     }
 
+    /**
+     * Helper method to determine the movement Direction based on row/col differences.
+     * * @param rowDiff The change in the row index.
+     * @param colDiff The change in the column index.
+     * @return The corresponding Direction, or null if invalid.
+     */
     private Direction getDirectionFromDiff(int rowDiff, int colDiff) {
         if (rowDiff == -1 && colDiff ==  0) return Direction.UP;
         if (rowDiff ==  1 && colDiff ==  0) return Direction.DOWN;
@@ -403,22 +470,38 @@ public class MyViewController implements IView {
 
     //region IView Implementation
 
+    /**
+     * Updates the UI to display the new maze layout.
+     * * @param maze The new Maze to display.
+     */
     @Override
     public void displayMaze(Maze maze) {
         if (maze != null) mazeDisplayer.setMaze(maze);
     }
 
+    /**
+     * Updates the UI to reflect the character's new position.
+     * * @param position The current Position of the character.
+     */
     @Override
     public void displayCharacterPosition(Position position) {
         if (position != null)
             mazeDisplayer.setCharacterPosition(position.getRowIndex(), position.getColumnIndex());
     }
 
+    /**
+     * Updates the UI to display the generated solution path.
+     * * @param solution The calculated Solution object.
+     */
     @Override
     public void displaySolution(Solution solution) {
         if (solution != null) mazeDisplayer.setSolution(solution);
     }
 
+    /**
+     * Displays a pop-up alert containing the given error message.
+     * * @param message The error message to show to the user.
+     */
     @Override
     public void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -428,6 +511,9 @@ public class MyViewController implements IView {
         alert.showAndWait();
     }
 
+    /**
+     * Creates and displays a custom modal window announcing the player's victory.
+     */
     @Override
     public void showWinMessage() {
         // Create an independent and styled victory window
@@ -473,12 +559,19 @@ public class MyViewController implements IView {
         winStage.show();
     }
 
+    /**
+     * Enables or disables UI components that trigger server requests.
+     * * @param enabled True if components should be active, false otherwise.
+     */
     @Override
     public void setControlsEnabled(boolean enabled) {
         if (solveButton != null) solveButton.setDisable(!enabled);
         if (saveMazeItem != null) saveMazeItem.setDisable(!enabled);
     }
 
+    /**
+     * Exposes the exit functionality publicly to allow external triggers (e.g., closing window).
+     */
     public void handleExit() {
         onExit();
     }

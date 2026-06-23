@@ -9,6 +9,10 @@ import javafx.stage.Stage;
 import org.example.atpprojectpartc.ViewModel.MyViewModel;
 import java.io.File;
 
+/**
+ * Controller for the initial welcome/launch screen of the application.
+ * Manages transitioning to the main game view and loading saved files directly.
+ */
 public class WelcomeController {
 
     @FXML private Button startButton;
@@ -16,17 +20,28 @@ public class WelcomeController {
 
     private MyViewModel viewModel;
 
+    /**
+     * Injects the ViewModel from the main application class into this controller.
+     * * @param viewModel The MyViewModel instance.
+     */
     // Inject the ViewModel from HelloApplication
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
+    /**
+     * Handles the "Start" button action. Transitions directly to the game scene.
+     */
     @FXML
     private void onStart() {
         // Switch to the game scene directly
         switchToGameScene();
     }
 
+    /**
+     * Handles the "Load" button action. Prompts the user to select a maze file,
+     * transitions to the game scene, and loads the selected maze.
+     */
     @FXML
     private void onLoad() {
         // Open file chooser to select a saved maze
@@ -46,7 +61,8 @@ public class WelcomeController {
 
     /**
      * Helper method to handle the transition from the Welcome screen to the Game screen.
-     * Prevents code duplication between onStart and onLoad.
+     * Loads the FXML, sets up the new controller, and prevents code duplication
+     * between onStart and onLoad.
      */
     private void switchToGameScene() {
         try {
@@ -76,7 +92,8 @@ public class WelcomeController {
     }
     /**
      * Handles the application exit directly from the welcome screen.
-     * Routes the exit command through the ViewModel to stop servers properly.
+     * Routes the exit command through the ViewModel to stop servers properly
+     * before shutting down the JavaFX platform.
      */
     public void handleExit() {
         if (viewModel != null) {

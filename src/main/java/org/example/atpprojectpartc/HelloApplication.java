@@ -8,8 +8,23 @@ import org.example.atpprojectpartc.Model.MyModel;
 import org.example.atpprojectpartc.View.WelcomeController;
 import org.example.atpprojectpartc.ViewModel.MyViewModel;
 
+/**
+ * The main entry point for the Maze Game JavaFX application.
+ * Responsible for bootstrapping the MVVM architecture (Model, ViewModel, View),
+ * loading the initial Welcome screen, and setting up global application behavior
+ * such as clean shutdown handling.
+ */
 public class HelloApplication extends Application {
 
+    /**
+     * The main entry point for all JavaFX applications.
+     * The start method is called after the init method has returned,
+     * and after the system is ready for the application to begin running.
+     *
+     * @param primaryStage The primary stage for this application, onto which
+     * the application scene can be set.
+     * @throws Exception if the FXML file cannot be loaded or other initialization errors occur.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         // 1. Create the Model
@@ -40,6 +55,12 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+    /**
+     * The standard Java main method.
+     * Used as a fallback to launch the JavaFX application.
+     *
+     * @param args Command line arguments passed to the application.
+     */
     public static void main(String[] args) {
         launch(args);
     }

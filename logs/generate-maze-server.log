@@ -64,3 +64,5 @@
 2026-06-23 13:28:48 [pool-3-thread-1] INFO  Server.ServerStrategyGenerateMaze - Maze generated and sent successfully using MyMazeGenerator. Raw size: 112 bytes, compressed size: 26 bytes.
 2026-06-23 13:42:40 [pool-3-thread-1] INFO  Server.ServerStrategyGenerateMaze - [client: 127.0.0.1:57096] Maze generation request received from thread [pool-3-thread-1]: 10x10 maze requested.
 2026-06-23 13:42:40 [pool-3-thread-1] INFO  Server.ServerStrategyGenerateMaze - [client: 127.0.0.1:57096] Maze generated and sent successfully using MyMazeGenerator. Raw size: 112 bytes, compressed size: 26 bytes.
+2026-06-23 14:50:45 [pool-3-thread-1] INFO  Server.ServerStrategyGenerateMaze - [client: 127.0.0.1:53704] Maze generation request received from thread [pool-3-thread-1]: 10x10 maze requested.
+2026-06-23 14:50:45 [pool-3-thread-1] INFO  Server.ServerStrategyGenerateMaze - [client: 127.0.0.1:53704] Maze generated and sent successfully using MyMazeGenerator. Raw size: 112 bytes, compressed size: 26 bytes.

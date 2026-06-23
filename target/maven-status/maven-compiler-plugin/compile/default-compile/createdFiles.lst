@@ -5,6 +5,7 @@ org\example\atpprojectpartc\Model\Direction.class
 org\example\atpprojectpartc\View\IView.class
 org\example\atpprojectpartc\ViewModel\MyViewModel.class
 org\example\atpprojectpartc\View\MyViewController$1.class
+module-info.class
 org\example\atpprojectpartc\Model\IModel.class
 org\example\atpprojectpartc\View\MazeDisplayer.class
 org\example\atpprojectpartc\View\MyViewController.class
